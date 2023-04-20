@@ -1,6 +1,7 @@
 import os
 import socket
-from collections import defaultdict, Iterable
+from collections import defaultdict
+from collections.abc import Iterable
 from copy import deepcopy
 from datetime import datetime
 from itertools import chain

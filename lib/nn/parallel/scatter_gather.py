@@ -4,7 +4,10 @@ import numpy as np
 import torch
 from torch.autograd import Variable
 from ._functions import Scatter, Gather
-from torch._six import string_classes, int_classes
+# from torch._six import string_classes, int_classes
+
+int_classes = int
+string_classes = str
 
 numpy_type_map = {
     'float64': torch.DoubleTensor,
@@ -75,9 +78,9 @@ def gather(outputs, target_device, dim=0):
             return Gather.apply(target_device, dim, *outputs)
         if out is None:
             return None
-        if isinstance(out, collections.Sequence):
+        if isinstance(out, collections.abc.Sequence):
             return type(out)(map(gather_map, zip(*outputs)))
-        elif isinstance(out, collections.Mapping):
+        elif isinstance(out, collections.abc.Mapping):
             return {key: gather_map([d[key] for d in outputs]) for key in out}
         elif elem_type.__module__ == 'numpy' and elem_type.__name__ != 'str_' \
                 and elem_type.__name__ != 'string_':
